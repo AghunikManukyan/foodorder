@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <link rel="shortcut icon" href="http://vandelaydesign.com/favicon.ico">
+    <link rel="icon" href="http://vandelaydesign.com/favicon.ico">
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Merienda:400,700">
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+    <script type="text/javascript" language="javascript" charset="utf-8" src="nav.js"></script>
+</head>
+<body>
+<div th:fragment="menu (menus,categories,subcategories)">
+<!--    <div id="w">-->
+<!--        <nav>-->
+<!--            <ul id="nav" th:each="menu : ${menus}">-->
+<!--                <li th:text="${menu.name}">-->
+<!--                    <ul>-->
+
+<!--                            <li th:each="category : ${categories}"-->
+<!--                                th:if="${category.menus.contains(menu)}">-->
+<!--                                <ul>-->
+<!--                            <li th:each="subcategory : ${subcategories}"-->
+<!--                                th:if="${category.id == subcategory.category.id}">-->
+<!--                                <a th:href="@{/productBySubcategoryId(id=${subcategory.id})}" th:text="${subcategory.name}"></a>-->
+<!--                        </ul>-->
+<!--                            </li>-->
+<!--                        </li>-->
+
+<!--                    </ul>-->
+<!--                </li>-->
+<!--            </ul>-->
+<!--        </nav>-->
+<!--    </div>-->
+</div>
+</body>
+</html>

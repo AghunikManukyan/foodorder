@@ -1,0 +1,198 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Checkout</title>
+<!-- Custom Theme files -->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="keywords" content="Yummy Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template, 
+	Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyErricsson, Motorola web design" />
+<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+<!-- //Custom Theme files -->
+<link href="css/bootstrap.css" type="text/css" rel="stylesheet" media="all">
+<link href="css/style.css" type="text/css" rel="stylesheet" media="all">
+<!-- js -->
+<script src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/bootstrap-3.1.1.min.js"></script>
+<!-- //js -->
+<!-- cart -->
+<script src="js/simpleCart.min.js"> </script>
+<!-- cart -->
+</head>
+<body>
+<!--header-->
+<div class="header">
+	<div class="container">
+		<nav class="navbar navbar-default" role="navigation">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse"
+						data-target="#bs-example-navbar-collapse-1">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<h1 class="navbar-brand"><a href="/">Yummy</a></h1>
+			</div>
+			<!--navbar-header-->
+
+
+			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+				<ul class="nav navbar-nav">
+					<li><a href="/" >HOME</a></li>
+
+					<li class="dropdown" th:each="menu : ${menus}">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown" th:text="${menu.name}"><b
+								class="caret"></b></a>
+						<ul class="dropdown-menu multi-column columns-4">
+							<div class="row">
+								<div class="col-sm-3" th:each="category : ${categories}"
+									 th:if="${category.menus.contains(menu)}">
+									<h4 th:text="${category.name}"></h4>
+									<ul class="multi-column-dropdown" th:each="subcategory : ${subcategories}"
+										th:if="${category.id == subcategory.category.id}">
+										<li><a class="list" th:href="@{/productBySubcategoryId(id=${subcategory.id})}" th:text="${subcategory.name}"></a></li>
+
+									</ul>
+								</div>
+							</div>
+						</ul>
+					</li>
+
+				</ul>
+				<!--/.navbar-collapse-->
+			</div>
+			<!--//navbar-header-->
+		</nav>
+		<div class="header-info">
+			<div class="header-right search-box">
+				<a href="#"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></a>
+				<div class="search">
+					<form class="navbar-form">
+						<input type="text" class="form-control">
+						<button type="submit" class="btn btn-default" aria-label="Left Align">
+							Search
+						</button>
+					</form>
+				</div>
+			</div>
+			<div class="header-right login">
+				<a href="#"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></a>
+				<div class="header-right cart">
+					<a href="#"><span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span></a>
+					<div class="cart-box">
+						<a href="#">My Accaount</a>
+						<a href="/logout">Logout</a>
+						<div class="clearfix"> </div>
+					</div>
+				</div>
+
+			</div>
+			<div class="header-right cart">
+				<a href="/productCartByUser"><span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span></a>
+
+			</div>
+			<div class="clearfix"></div>
+		</div>
+		<div class="clearfix"></div>
+	</div>
+</div>
+	<!--cart-items-->
+	<div class="cart-items">
+		<div class="container">
+			<h2>My Shopping Cart(3)</h2>
+			<script>$(document).ready(function(c) {
+				$('.close1').on('click', function(c){
+					$('.cart-header').fadeOut('slow', function(c){
+						$('.cart-header').remove();
+					});
+					});	  
+				});
+			</script>
+			<div class="cart-header">
+				<div class="close1"> </div>
+				<div class="cart-sec simpleCart_shelfItem">
+					<div class="cart-item cyc">
+						 <img src="images/m1.png" class="img-responsive" alt="">
+					</div>
+					<div class="cart-item-info">
+						<h3><a href="#"> Lorem Ipsum is not simply </a><span>Pickup time:</span></h3>
+						<ul class="qty">
+							<li><p>Min. order value:</p></li>
+							<li><p>FREE delivery</p></li>
+						</ul>
+						<div class="delivery">
+							<p>Service Charges : $10.00</p>
+							<span>Delivered in 1-1:30 hours</span>
+							<div class="clearfix"></div>
+						</div>	
+					</div>
+					<div class="clearfix"></div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+	<!--//checkout-->	
+	<!--footer-->
+	<div class="footer">
+		<div class="container">
+			<div class="footer-grids">
+				<div class="col-md-2 footer-grid">
+					<h4>company</h4>
+					<ul>
+						<li><a href="products.html">products</a></li>
+						<li><a href="#">Work Here</a></li>
+						<li><a href="#">Team</a></li>
+						<li><a href="#">Happenings</a></li>
+						<li><a href="#">Dealer Locator</a></li>
+					</ul>
+				</div>
+				<div class="col-md-2 footer-grid">
+					<h4>service</h4>
+					<ul>
+						<li><a href="#">Support</a></li>
+						<li><a href="#">FAQ</a></li>
+						<li><a href="#">Warranty</a></li>
+						<li><a href="contact.html">Contact Us</a></li>
+					</ul>
+				</div>
+				<div class="col-md-3 footer-grid">
+					<h4>order & returns</h4>
+					<ul>
+						<li><a href="#">Order Status</a></li>
+						<li><a href="#">Shipping Policy</a></li>
+						<li><a href="#">Return Policy</a></li>
+						<li><a href="#">Digital Gift Card</a></li>
+					</ul>
+				</div>
+				<div class="col-md-2 footer-grid">
+					<h4>legal</h4>
+					<ul>
+						<li><a href="#">Privacy</a></li>
+						<li><a href="#">Terms and Conditions</a></li>
+						<li><a href="#">Social Responsibility</a></li>
+					</ul>
+				</div>
+				<div class="col-md-3 footer-grid icons">
+					<h4>Connect with Us</h4>
+					<ul>
+						<li><a href="#"><img src="images/i1.png" alt=""/>Follow us on Facebook</a></li>
+						<li><a href="#"><img src="images/i2.png" alt=""/>Follow us on Twitter</a></li>
+						<li><a href="#"><img src="images/i3.png" alt=""/>Follow us on Google-plus</a></li>
+						<li><a href="#"><img src="images/i4.png" alt=""/>Follow us on Pinterest</a></li>
+					</div>
+				</div>
+				<div class="clearfix"></div>
+			</div>
+		</div>
+	</div>
+	<!--footer-->
+	<div class="footer-bottom">
+		<div class="container">
+			<p> © 2015 Yummy . All rights reserved.</p>
+		</div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Single</title>
+    <!-- Custom Theme files -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="keywords" content="Yummy Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template,
+	Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyErricsson, Motorola web design"/>
+    <script type="application/x-javascript"> addEventListener("load", function () {
+        setTimeout(hideURLbar, 0);
+    }, false);
+
+    function hideURLbar() {
+        window.scrollTo(0, 1);
+    } </script>
+    <!-- //Custom Theme files -->
+    <link href="css/bootstrap.css" type="text/css" rel="stylesheet" media="all">
+    <link href="css/style.css" type="text/css" rel="stylesheet" media="all">
+    <!-- js -->
+    <script src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap-3.1.1.min.js"></script>
+    <script src="js/imagezoom.js"></script>
+    <!-- //js -->
+    <!-- cart -->
+    <script src="js/simpleCart.min.js"></script>
+    <!-- cart -->
+    <!-- FlexSlider -->
+    <script defer src="js/jquery.flexslider.js"></script>
+    <link rel="stylesheet" href="css/flexslider.css" type="text/css" media="screen"/>
+    <script>
+        // Can also be used with $(document).ready()
+        $(window).load(function () {
+            $('.flexslider').flexslider({
+                animation: "slide",
+                controlNav: "thumbnails"
+            });
+        });
+    </script><!-- Latest compiled and minified CSS -->
+
+
+</head>
+<body>
+<!--header-->
+<div class="header">
+    <div class="container">
+        <nav class="navbar navbar-default" role="navigation">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse"
+                        data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <h1 class="navbar-brand"><a href="/">Yummy</a></h1>
+            </div>
+            <!--navbar-header-->
+
+
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li><a href="/" >HOME</a></li>
+
+                    <li class="dropdown" th:each="menu : ${menus}">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" th:text="${menu.name}"><b
+                                class="caret"></b></a>
+                        <ul class="dropdown-menu multi-column columns-4">
+                            <div class="row">
+                                <div class="col-sm-3" th:each="category : ${categories}"
+                                     th:if="${category.menus.contains(menu)}">
+                                    <h4 th:text="${category.name}"></h4>
+                                    <ul class="multi-column-dropdown" th:each="subcategory : ${subcategories}"
+                                        th:if="${category.id == subcategory.category.id}">
+                                        <li><a class="list" th:href="@{/productBySubcategoryId(id=${subcategory.id})}" th:text="${subcategory.name}"></a></li>
+
+                                    </ul>
+                                </div>
+                            </div>
+                        </ul>
+                    </li>
+
+                </ul>
+                <!--/.navbar-collapse-->
+            </div>
+            <!--//navbar-header-->
+        </nav>
+        <div class="header-info">
+            <div class="header-right search-box">
+                <a href="#"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></a>
+                <div class="search">
+                    <form class="navbar-form">
+                        <input type="text" class="form-control">
+                        <button type="submit" class="btn btn-default" aria-label="Left Align">
+                            Search
+                        </button>
+                    </form>
+                </div>
+            </div>
+            <div class="header-right login">
+                <a href="/login"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></a>
+
+            </div>
+            <div class="header-right cart">
+                <a href="/login"><span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span></a>
+
+            </div>
+            <div class="clearfix"></div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+</div>
+<!--//header-->
+<!--//single-page-->
+<div class="single" style="margin-left: 223px">
+    <div class="container">
+        <div class="single-grids">
+
+
+            <div class="col-md-4 single-grid">
+                <div class="flexslider">
+                    <ul class="slides" >
+                        <li th:attr="data-thumb=@{/product/getImage(picUrl=${product.picUrl})}">
+                            <div class="thumb-image"><img th:src="@{/product/getImage(picUrl=${product.picUrl})}"
+                                                          data-imagezoom="true" class="img-responsive"></div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-4 single-grid simpleCart_shelfItem">
+                <h3 th:text="${product.name}"></h3>
+                <h4 style="color: #F07818">Description</h4>
+                <p th:text="${product.description}"></p>
+                <ul class="size">
+                    <h3 th:text="${product.subcategory.category.name}"></h3>
+                    <p style="color: #F07818">Category</p>
+                    <li><a href="#" th:text="${product.subcategory.name}"></a></li>
+
+                    <div class="tag">
+                        <p>Tag : <span th:each="menu :${product.subcategory.category.menus}"
+                                       th:text="${menu.name}"> </span></p>
+                    </div>
+                </ul>
+
+                <div class="galry">
+                    <div class="prices">
+                        <h5 class="item_price">$<span th:text="${product.price}"></span></h5>
+                    </div>
+
+                    <div class="clearfix"></div>
+                </div>
+                <p class="qty"> Qty : </p><input min="1" type="number" id="quantity" name="quantity" value="1"
+                                                 class="form-control input-small">
+                <div class="btn_form">
+                    <a href="/login" class="add-cart item_add">ADD TO CART</a>
+                </div>
+
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</div>
+
+<!--related-products-->
+<div class="related-products">
+    <div class="container">
+        <h3 th:text="${product.subcategory.name}"></h3>
+        <div class="product-model-sec single-product-grids">
+            <div class="product-grid single-product" th:each="product : ${products}">
+                <a th:href="@{/productById(id=${product.id})}">
+                    <div class="more-product"><span> </span></div>
+                    <div class="product-img b-link-stripe b-animate-go  thickbox">
+                        <img th:src="@{/product/getImage(picUrl=${product.picUrl})}"
+                             alt="">
+                        <div class="b-wrapper">
+                            <h4 class="b-animate b-from-left  b-delay03">
+                                <button>View</button>
+                            </h4>
+                        </div>
+                    </div>
+                </a>
+                <div class="product-info simpleCart_shelfItem">
+                    <div class="product-info-cust prt_name">
+                        <h4 th:text="${product.name}"></h4>
+                        <span class="item_price">$<span th:text="${product.price}"></span></span>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</div>
+
+
+<!--related-products-->
+<!--footer-->
+<div class="footer">
+    <div class="footer-grids">
+        <div class="container">
+            <div class="col-md-2 footer-grid">
+                <h4>company</h4>
+                <ul>
+                    <li><a href="products.html">products</a></li>
+                    <li><a href="#">Work Here</a></li>
+                    <li><a href="#">Team</a></li>
+                    <li><a href="#">Happenings</a></li>
+                    <li><a href="#">Dealer Locator</a></li>
+                </ul>
+            </div>
+            <div class="col-md-2 footer-grid">
+                <h4>service</h4>
+                <ul>
+                    <li><a href="#">Support</a></li>
+                    <li><a href="#">FAQ</a></li>
+                    <li><a href="#">Warranty</a></li>
+                    <li><a href="contact.html">Contact Us</a></li>
+                </ul>
+            </div>
+            <div class="col-md-3 footer-grid">
+                <h4>order & returns</h4>
+                <ul>
+                    <li><a href="#">Order Status</a></li>
+                    <li><a href="#">Shipping Policy</a></li>
+                    <li><a href="#">Return Policy</a></li>
+                    <li><a href="#">Digital Gift Card</a></li>
+                </ul>
+            </div>
+            <div class="col-md-2 footer-grid">
+                <h4>legal</h4>
+                <ul>
+                    <li><a href="#">Privacy</a></li>
+                    <li><a href="#">Terms and Conditions</a></li>
+                    <li><a href="#">Social Responsibility</a></li>
+                </ul>
+            </div>
+            <div class="col-md-3 footer-grid icons">
+                <h4>Connect with Us</h4>
+                <ul>
+                    <li><a href="#"><img src="images/i1.png" alt=""/>Follow us on Facebook</a></li>
+                    <li><a href="#"><img src="images/i2.png" alt=""/>Follow us on Twitter</a></li>
+                    <li><a href="#"><img src="images/i3.png" alt=""/>Follow us on Google-plus</a></li>
+                    <li><a href="#"><img src="images/i4.png" alt=""/>Follow us on Pinterest</a></li>
+                </ul>
+            </div>
+
+        </div>
+        <div class="clearfix"></div>
+    </div>
+</div>
+</div>
+<!--footer-->
+<div class="footer-bottom">
+    <div class="container">
+        <p> © 2015 Yummy . All rights reserved.</p>
+    </div>
+</div>
+
+
+</body>
+</html>

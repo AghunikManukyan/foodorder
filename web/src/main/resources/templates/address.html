@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Address</title>
+
+    <!-- Font Icon -->
+    <link rel="stylesheet" href="address/fonts/material-icon/css/material-design-iconic-font.min.css">
+
+    <!-- Main css -->
+    <link rel="stylesheet" href="address/css/style.css">
+</head>
+<body>
+
+<div class="main">
+    <div class="container">
+        <div class="signup-content">
+
+            <div class="signup-img">
+                <img src="address/images/1.png" alt="">
+            </div>
+
+            <div class="signup-form">
+                <form method="post" class="register-form" id="register-form" action="/addAddress">
+
+
+                    <h2>Address</h2>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="name">City :</label>
+                            <input type="text" name="city" id="name" required/>
+                        </div>
+                        <div class="form-group">
+                            <label for="father_name">Region :</label>
+                            <input type="text" name="region" id="father_name" required/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="address">Street :</label>
+                        <input type="text" name="street" id="address" required/>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="name">Apartment :</label>
+                            <input type="text" name="apartment" id="name" required/>
+                        </div>
+                        <div class="form-group">
+                            <label for="father_name">Suite :</label>
+                            <input type="text" name="suite" id="father_name" required/>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="address">Phone :</label>
+                        <input type="tel" name="phone" id="address" required/>
+                    </div>
+                    <div class="form-submit">
+
+                        <input type="submit" value="Save" class="submit" id="submit"/>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- JS -->
+<script src="address/vendor/jquery/jquery.min.js"></script>
+<script src="address/js/main.js"></script>
+</body><!-- This templates was made by Colorlib (https://colorlib.com) -->
+</html>

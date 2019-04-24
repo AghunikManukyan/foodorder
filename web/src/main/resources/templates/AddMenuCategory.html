@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+
+<div style="float: left; width: 25%">
+
+
+    <form action="/admin/addMenu" method="post">
+        <h1> Add menu</h1><br>
+        <input type="text" name="name" placeholder="name"><br>
+        <input type="submit" value="AddMenu">
+    </form>
+</div>
+
+
+<div style="float: left; width: 25%">
+    <form action="/admin/addCategory" method="post">
+        <h1>Add category</h1><br>
+        Menu:<br>
+        <input type="checkbox" requiredb  th:each="menu : ${menus}" th:value="${menu.id}" th:text="${menu.name}"
+               name="menus"><br><br>
+
+        <input type="text" name="name" placeholder="name"><br>
+        <input type="submit" value="AddCategory">
+    </form>
+    <br><br>
+</div>
+
+<div style="float: left; width: 25%">
+    <form action="/admin/addSubcategory" method="post">
+        <h1>Add Subcategory</h1><br>
+        Category:<br>
+
+        <select name="category.id" required>
+            <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}"></option>
+        </select><br><br>
+
+        <input type="text" name="name" placeholder="name"><br>
+        <input type="submit" value="AddSubcategory"><br><br>
+    </form>
+</div>
+<div style="float: left; width: 25%">
+    <form action="/admin/addProduct" method="post" enctype="multipart/form-data">
+        <h1>Add Product</h1><br>
+        <input type="text" name="name" placeholder="name" required><br><br>
+        <input type="text" name="description" placeholder="description" required><br><br>
+        <input type="number" name="price" placeholder="price" required><br><br>
+
+        Menu:<br>
+
+        <select name="menu.id" required>
+            <option th:each="menu : ${menus}" th:value="${menu.id}" th:text="${menu.name}" ></option>
+        </select><br><br>
+        Category:<br>
+        <select name="subcategory.id" required>
+            <option th:each="subcategory : ${subcategories}" th:value="${subcategory.id}"
+                    th:text="${subcategory.name}"></option>
+        </select>
+
+        <br><br>
+
+        <input type="file" name="picture" required><br><br>
+
+        <input type="submit" value="AddProduct">
+    </form>
+</div>
+
+</body>
+</html>
