@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Data
 @AllArgsConstructor
@@ -34,5 +35,7 @@ public class Products {
     @ManyToOne
     private User user;
 
+    @Column
+    private Date date;
 
 }

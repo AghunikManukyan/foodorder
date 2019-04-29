@@ -35,5 +35,8 @@ public class User {
     @Enumerated(EnumType.STRING)
     private UserType userType = UserType.USER;
 
+    @Column(name = "pic_url")
+    private String picUrl;
+
 
 }

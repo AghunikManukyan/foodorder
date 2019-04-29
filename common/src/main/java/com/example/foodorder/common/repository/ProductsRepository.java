@@ -9,6 +9,9 @@ public interface ProductsRepository extends JpaRepository<Products, Integer> {
 
     List<Products> findAllByUserId(int id);
 
+    List<Products> findAllByProductId(int id);
+
+
 }
 
 
