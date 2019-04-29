@@ -25,7 +25,7 @@ public class MenuController {
     private SubcategoryRepository subcategoryRepository;
 
     @GetMapping("/admin/addMenuCategoryProduct")
-    public String addProduct(ModelMap map) {
+    public String add(ModelMap map) {
         map.addAttribute("menus", menuRepository.findAll());
         map.addAttribute("categories", categoryRepository.findAll());
         map.addAttribute("subcategories", subcategoryRepository.findAll());
@@ -33,13 +33,13 @@ public class MenuController {
     }
 
     @PostMapping("/admin/addMenu")
-    public String addProduct(@ModelAttribute Menu menu) {
+    public String addMenu(@ModelAttribute Menu menu) {
         menuRepository.save(menu);
         return "redirect:/admin/addMenuCategoryProduct";
     }
 
     @PostMapping("/admin/addCategory")
-    public String addProduct(@ModelAttribute Category category) {
+    public String addCategory(@ModelAttribute Category category) {
         categoryRepository.save(category);
         return "redirect:/admin/addMenuCategoryProduct";
     }

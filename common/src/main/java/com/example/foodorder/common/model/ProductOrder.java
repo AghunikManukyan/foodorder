@@ -14,32 +14,27 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 @Entity
-@Table(name = "order")
-public class Order {
+@Table(name = "product_order")
+public class ProductOrder {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @ManyToOne
-    private User user;
-
-    @Column
-    private int count;
-
-    @Column
-    private double price;
-
     @Column
     private Date date;
 
-    @Column(name = "status")
+    @Column(name = "status_order")
     @Enumerated(EnumType.STRING)
     private Status status = Status.PENDING;
 
+
+    @ManyToOne
+    private User user;
+
     @ManyToMany()
-    @JoinTable(name = "prod_order",
-            joinColumns = @JoinColumn(name = "order_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "product_id", referencedColumnName = "id"))
-    private List<Product> products;
+    @JoinTable(name = "order_products",
+            joinColumns = @JoinColumn(name = "product_order_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "products_id", referencedColumnName = "id"))
+    private List<Products> products;
 }

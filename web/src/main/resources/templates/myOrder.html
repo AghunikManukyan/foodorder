@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <title>UserHome</title>
+    <title>MyOrder</title>
     <!-- Custom Theme files -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
@@ -21,40 +21,44 @@
     <!-- js -->
     <script src="../js/jquery.min.js"></script>
     <script type="text/javascript" src="../js/bootstrap-3.1.1.min.js"></script>
+    <script src="../js/imagezoom.js"></script>
     <!-- //js -->
     <!-- cart -->
     <script src="../js/simpleCart.min.js"></script>
     <!-- cart -->
+    <!-- FlexSlider -->
+    <script defer src="../js/jquery.flexslider.js"></script>
+    <link rel="stylesheet" href="../css/flexslider.css" type="text/css" media="screen"/>
+    <script>
+        // Can also be used with $(document).ready()
+        $(window).load(function () {
+            $('.flexslider').flexslider({
+                animation: "slide",
+                controlNav: "thumbnails"
+            });
+        });
+    </script><!-- Latest compiled and minified CSS -->
+
     <style>
-        .pagination {
-            display: inline-block;
+        table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
         }
-
-        .pagination a {
-            color: black;
-            float: left;
-            margin-left: 200px;
-            padding: 8px 16px;
-            text-decoration: none;
-            transition: background-color .3s;
-            border: 1px solid #ddd;
+        th, td {
+            padding: 15px;
+            text-align: left;
         }
+        table#t01 {
+            width: 90%;
+            background-color: #f1f1c1;
 
-        .pagination a.active {
-            background-color: #F07818;
-            color: white;
-            border: 1px solid #F07818;
-        }
-
-        .pagination a:hover:not(.active) {
-            background-color: #ddd;
         }
     </style>
 
 
+
 </head>
 <body>
-
 <!--header-->
 <div class="header">
     <div class="container">
@@ -74,7 +78,7 @@
 
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
-                    <li><a th:href="@{/user/home}">HOME</a></li>
+                    <li><a th:href="@{/user/home}" >HOME</a></li>
 
                     <li class="dropdown" th:each="menu : ${menus}">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" th:text="${menu.name}"><b
@@ -86,9 +90,7 @@
                                     <h4 th:text="${category.name}"></h4>
                                     <ul class="multi-column-dropdown" th:each="subcategory : ${subcategories}"
                                         th:if="${category.id == subcategory.category.id}">
-                                        <li><a class="list"
-                                               th:href="@{/user/productBySubcategoryId(id=${subcategory.id})}"
-                                               th:text="${subcategory.name}"></a></li>
+                                        <li><a class="list" th:href="@{/user/productBySubcategoryId(id=${subcategory.id})}" th:text="${subcategory.name}"></a></li>
 
                                     </ul>
                                 </div>
@@ -128,21 +130,20 @@
                 <a href="#"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></a>
                 <div id="loginBox">
                     <form id="loginForm">
-                        <fieldset id="body">
+                        <fieldset id="body" >
                             <a style="color:#F07818" href="/user/account">My Accaount</a>
                             <a style="color:#F07818" href="/user/updateAddress">Update Address</a>
                             <a style="color:#F07818" th:href="@{/user/updateUser}">Update My Data</a>
                             <a style="color:#F07818" href="/user/myOrder">My Order</a>
                             <a style="color:#F07818" href="/logout">Logout</a>
-                            <div class="clearfix"></div>
+                            <div class="clearfix"> </div>
                         </fieldset>
                     </form>
                 </div>
             </div>
 
             <div class="header-right cart">
-                <a th:href="@{/user/checkout}"><span class="glyphicon glyphicon-shopping-cart"
-                                                     aria-hidden="true"></span></a>
+                <a href="/user/productCartByUser"><span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span></a>
 
             </div>
             <div class="clearfix"></div>
@@ -150,60 +151,50 @@
         <div class="clearfix"></div>
     </div>
 </div>
-<!--//header-->
-<!--banner-->
-<div class="banner">
+<!--//single-page-->
+<div class="single" style="margin-left: 223px">
     <div class="container">
-        <h2 class="hdng">Yummy <span>Cakes</span> for u</h2>
-        <p>Our best cakes make your day special</p>
-        <a href="products.html">SHOP NOW</a>
-        <div class="banner-text">
-            <img style="margin-top: -35%" src="../images/44.png" alt="">
+        <div class="single-grids">
+
+                    <h2>My Order</h2>
+
+               <div th:each="order : ${orders}">
+
+                   Order: <a th:href="@{/user/deleteOrder(id=${order.id})}"><img src="../images/delete.png"></a>
+
+
+                   <table border="1" id="t01" >
+                       <tr style="color:#F07818 ">
+                           <th>Image</th>
+                           <th>Name</th>
+                           <th>Count</th>
+                           <th>One price</th>
+                           <th>All price</th>
+                           <th>Status</th>
+                       </tr>
+                       <tr th:each="products : ${order.products}">
+
+                           <th ><a th:href="@{/user/productById(id=${products.product.id})}">
+                               <img th:src="@{/product/getImage(picUrl=${products.product.picUrl})}"
+                                  width="102px" height="100px"  alt=""></a></th>
+                           <th th:text="${products.product.name}"></th>
+                           <th th:text="${products.count}"></th>
+                           <th th:text="${products.product.price}"></th>
+                           <th th:text="${products.price}"></th>
+                           <th th:text="${order.status}"></th>
+
+                       </tr>
+                   </table><br>
+
+               </div>
+
+            </div>
+            <div class="clearfix"></div>
         </div>
     </div>
 </div>
-<!--//banner-->
-<!--gallery-->
-<div class="gallery">
-    <div class="container">
-        <div class="gallery-grids">
 
-            <div class="col-md-3 gallery-grid" th:each="product : ${productsPage.content}">
-                <a th:href="@{/user/productById(id=${product.id})}">
-                    <img th:src="@{/product/getImage(picUrl=${product.picUrl})}" class="img-responsive"
-                         alt=""/>
-                    <div class="gallery-info">
-                        <p><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> view</p>
-                        <a class="shop" th:href="@{/user/productById(id=${product.id})}">SHOP NOW</a>
-                        <div class="clearfix"></div>
-                    </div>
-                </a>
-                <div class="galy-info">
-                    <p th:text="${product.name}"></p>
-                    <div class="galry">
-                        <div class="prices">
-                            <h5 class="item_price">$<span th:text="${product.price}"></span></h5>
-                        </div>
-                        <div class="clearfix"></div>
-                    </div>
-                </div>
-            </div>
-            <div th:if="${productsPage.totalPages > 1}" class="pagination"
-                 th:each="pageNumber : ${pageNumbers}">
-                    <a th:href="@{/(size=${productsPage.size}, page=${pageNumber})}"
-                       th:text="${pageNumber}"
-                       th:class="${pageNumber==productsPage.number + 1} ? active"></a>
-            </div>
-        </div>
-    </div>
-</div>
-<!--//gallery-->
-<!--subscribe-->
-<div class="subscribe">
 
-</div>
-<!--//subscribe-->
-<!--footer-->
 <div class="footer">
     <div class="footer-grids">
         <div class="container">
@@ -234,5 +225,7 @@
         <p> © 2019 Yummy .</p>
     </div>
 </div>
+
+
 </body>
 </html>

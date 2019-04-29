@@ -1,13 +1,13 @@
 package com.example.foodorder.web.controller;
 
 
-import com.example.foodorder.common.model.Address;
-import com.example.foodorder.common.model.Product;
-import com.example.foodorder.common.model.User;
-import com.example.foodorder.common.model.UserType;
+import com.example.foodorder.common.model.*;
 import com.example.foodorder.common.repository.*;
+import com.example.foodorder.common.specification.ProductSpecificationsBuilder;
 import com.example.foodorder.web.security.SpringUser;
+import com.example.foodorder.web.service.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -15,17 +15,29 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.mail.MessagingException;
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 
 @Controller
 public class MainController {
+    @Value("${user.image.upload.dir}")
+    private String imageUploadDir;
+
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -42,11 +54,19 @@ public class MainController {
     @Autowired
     private CategoryRepository categoryRepository;
 
-
     @Autowired
     private SubcategoryRepository subcategoryRepository;
 
-    private User user;
+    @Autowired
+    private AddressRepository addressRepository;
+
+    @Autowired
+    private ContactRepository contactRepository;
+
+    @Autowired
+    private EmailService emailService;
+
+    private User userik;
 
     @GetMapping("/")
     public String main(ModelMap map, @RequestParam("page") Optional<Integer> page,
@@ -73,7 +93,6 @@ public class MainController {
     }
 
 
-
     @GetMapping("/login")
     public String loginPage(ModelMap map) {
         map.addAttribute("menus", menuRepository.findAll());
@@ -81,7 +100,6 @@ public class MainController {
         map.addAttribute("subcategories", subcategoryRepository.findAll());
         return "login";
     }
-
 
 
     @GetMapping("/register")
@@ -95,25 +113,84 @@ public class MainController {
 
 
     @GetMapping("/loginSuccess")
-    public String loginSuccess(@AuthenticationPrincipal SpringUser springUser) {
+    public String loginSuccess(@AuthenticationPrincipal SpringUser springUser, ModelMap modelMap) {
 
-        if(springUser.getUser().getUserType() == UserType.ADMIN){
+        if (springUser.getUser().getUserType() == UserType.ADMIN) {
             return "AdminHome";
         }
         return "redirect:/user/home";
+
+
     }
 
     @PostMapping("/register")
-    public String register(@ModelAttribute User user) {
+    public String register(@ModelAttribute User user, @RequestParam("file") MultipartFile file) throws IOException, MessagingException {
+
         if (userRepository.findByEmail(user.getEmail()) != null) {
             return "redirect:/register";
         }
+
+        String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
+        File picture = new File(imageUploadDir + File.separator + fileName);
+        file.transferTo(picture);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setPicUrl(fileName);
         userRepository.save(user);
+        emailService.sendHtmlMessage(user.getEmail(),
+                "Welcome" + user.getName(),
+                user.getName(), UUID.randomUUID().toString());
+
+        userik = user;
+        return "redirect:/user/address";
+
+
+    }
+
+    @GetMapping("/user/address")
+    public String addAddress() {
+        return "address";
+    }
+
+    @PostMapping("/user/addAddress")
+    public String addAddress(@ModelAttribute Address address) {
+        address.setUser(userik);
+        addressRepository.save(address);
         return "redirect:/login";
+
+    }
+
+    @GetMapping("/contact")
+    public String contact(ModelMap map) {
+        map.addAttribute("menus", menuRepository.findAll());
+        map.addAttribute("categories", categoryRepository.findAll());
+        map.addAttribute("subcategories", subcategoryRepository.findAll());
+        return "contact";
+
     }
 
 
+    @PostMapping("/contact")
+    public String addContact(@ModelAttribute Contact contact) {
+        contactRepository.save(contact);
 
+        return "redirect:/contact";
+
+    }
+
+    @GetMapping("/search")
+    public String search(@RequestParam("search") String search, ModelMap map) {
+        ProductSpecificationsBuilder builder = new ProductSpecificationsBuilder();
+        Pattern pattern = Pattern.compile("(\\w+?)(:|<|>)(\\w+?),");
+        Matcher matcher = pattern.matcher(search + ",");
+        while (matcher.find()) {
+            builder.with(matcher.group(1), matcher.group(2), matcher.group(3));
+        }
+        List<Product> all = productRepository.findAll(builder.build());
+        map.addAttribute("menus", menuRepository.findAll());
+        map.addAttribute("categories", categoryRepository.findAll());
+        map.addAttribute("subcategories", subcategoryRepository.findAll());
+        map.addAttribute("products", all);
+        return "products";
+    }
 }
 

@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-<title>Products</title>
+<title>Contact</title>
 <!-- Custom Theme files -->
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -12,27 +12,16 @@
 <!-- //Custom Theme files -->
 <link href="css/bootstrap.css" type="text/css" rel="stylesheet" media="all">
 <link href="css/style.css" type="text/css" rel="stylesheet" media="all">
-<link href="css/form.css" rel="stylesheet" type="text/css" media="all" />
 <!-- js -->
 <script src="js/jquery.min.js"></script>
 <script type="text/javascript" src="js/bootstrap-3.1.1.min.js"></script>
-<!-- //js -->	
+<!-- //js -->
 <!-- cart -->
 <script src="js/simpleCart.min.js"> </script>
 <!-- cart -->
-<!-- the jScrollPane script -->
-<script type="text/javascript" src="js/jquery.jscrollpane.min.js"></script>
-		<script type="text/javascript" id="sourcecode">
-			$(function()
-			{
-				$('.scroll-pane').jScrollPane();
-			});
-		</script>
-<!-- //the jScrollPane script -->
-<script type="text/javascript" src="js/jquery.mousewheel.js"></script>
-<!-- the mousewheel plugin -->
 </head>
 <body>
+	<!--header-->
 	<!--header-->
 	<div class="header">
 		<div class="container">
@@ -45,14 +34,14 @@
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
 					</button>
-					<h1 class="navbar-brand"><a href="/">Yummy</a></h1>
+					<h1 class="navbar-brand"><a th:href="@{/user/home}">Yummy</a></h1>
 				</div>
 				<!--navbar-header-->
 
 
 				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 					<ul class="nav navbar-nav">
-						<li><a href="/" >HOME</a></li>
+						<li><a th:href="@{/user/home}" >HOME</a></li>
 
 						<li class="dropdown" th:each="menu : ${menus}">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown" th:text="${menu.name}"><b
@@ -71,28 +60,35 @@
 								</div>
 							</ul>
 						</li>
-						<li><a th:href="@{/contact}" >CONTACT</a></li>
+						<li><a th:href="@{/user/contact}" >CONTACT</a></li>
 					</ul>
 					<!--/.navbar-collapse-->
 				</div>
 				<!--//navbar-header-->
 			</nav>
 			<div class="header-info">
-
 				<div class="header-right search-box">
 					<a href="#"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></a>
 					<div class="search">
 
 
-							<input type="text" class="form-control" id="searchName" placeholder="name">
+						<input type="text" class="form-control" id="searchName" placeholder="name">
 
 
-							<input type = "submit" value="Search" class="item_add items" onclick="search()"   >
+						<input type = "submit" value="Search" class="item_add items" onclick="search()"   >
 
 					</div>
 				</div>
+				<script>
+					function search() {
+						var name = $('#searchName').val();
 
 
+						var url = "http://localhost:8081/search?search=name:"
+								+ name ;
+						window.location = url;
+					}
+				</script>
 				<div class="header-right login">
 					<a href="/login"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></a>
 
@@ -107,87 +103,56 @@
 		</div>
 	</div>
 	<!--//header-->
-	<!--products-->
-	<div class="products">
+	<!--banner-->
+		<!--//header-->
+	<!--contact-->
+	<div class="contact">
 		<div class="container">
-			<h2>Products</h2>
-			<div class="col-md-9 product-model-sec">
-				<div class="product-grid" th:each="product : ${products}">
-					<a th:href="@{/productById(id=${product.id})}">
-						<div class="more-product"><span> </span></div>
-						<div class="product-img b-link-stripe b-animate-go  thickbox">
-							<img  th:src="@{/product/getImage(picUrl=${product.picUrl})}" class="img-responsive" alt="">
-							<div class="b-wrapper">
-								<h4 class="b-animate b-from-left  b-delay03">
-									<button>View</button>
-								</h4>
-							</div>
-						</div>
-					</a>
-					<div class="product-info simpleCart_shelfItem">
-						<div class="product-info-cust prt_name">
-							<h4 th:text="${product.name}"></h4>
-							<span class="item_price">$<span th:text="${product.price}"></span></span>
-							<div class="clearfix"> </div>
-						</div>
-					</div>
-				</div>
+			<h2>Contact Us</h2>
+			<div class="map">	
+				<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d205251.8961757029!2d-82.55659211602483!3d36.50439253757311!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x885a856b70074b97%3A0x6f9cc0d30bcc841f!2sKingsport%2C+TN%2C+USA!5e0!3m2!1sen!2sin!4v1433743549812"></iframe>
 			</div>
-
-
-
-			<div class="col-md-3 rsidebar span_1_of_left">
-				<section  class="sky-form">
-					<div class="product_right" th:each="menu:${menus}">
-						<h4 class="m_2"><span class="glyphicon glyphicon-minus" aria-hidden="true"></span><span th:text="${menu.name}"></span></h4>
-						<div class="tab1"  th:each="category : ${categories}"
-							 th:if="${category.menus.contains(menu)}">
-							<ul class="place">
-								<li class="sort" th:text="${category.name}"></li>
-								<li class="by"><span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span></li>
-							</ul>
-							<div class="clearfix"> </div>
-							<div class="single-bottom"  th:each="subcategory : ${subcategories}"
-								 th:if="${category.id == subcategory.category.id}">
-								<a th:href="@{/productBySubcategoryId(id=${subcategory.id})}"><p th:text="${subcategory.name}"></p></a>
-						    </div>
-					    </div>
-
-
-
-
-					</div>
-				</section>
-
-				<section  class="sky-form">
-					<h4><span class="glyphicon glyphicon-minus" aria-hidden="true"></span>Price</h4>
-					<ul class="dropdown-menu1">
-
-						Min:  <input type= "text" name="min" id="minPrice" style="width:50px">
-						Max:  <input type = "text" name = "max" id="maxPrice" style="width:50px">
-						<input type = "submit" value="OK" class="item_add items" onclick="search()" style="margin-left: 1px" >
+			<div class="contact-infom">
+				<h4>Miscellaneous information :</h4>
+				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit,sheets containing Lorem Ipsum passages, 
+					sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.It was popularised in the 1960s with the release of Letraset
+					and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+			</div>
+			<div class="address">
+				<div class="col-md-4 address-grids">
+					<h4>Address :</h4>
+					<ul>
+						<span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>
+						<p>	Eiusmod Tempor inc<br>
+							St Dolore Place,<br>
+							Kingsport 56777
+						</p>
 					</ul>
-				</section>
-
-				<script>
-					function search() {
-						var name = $('#searchName').val();
-						var minPrice = $('#minPrice').val();
-						var maxPrice = $('#maxPrice').val();
-
-						var url = "http://localhost:8081/search?search=name:"
-								+ name + ",price>" +  minPrice  + ",price<" + maxPrice;
-						window.location = url;
-					}
-				</script>
-				<script type="text/javascript" src="js/jquery-ui.min.js"></script>
-				<link rel="stylesheet" type="text/css" href="css/jquery-ui.css">
-
-			</div>
-			<div class="clearfix"> </div>
+				</div>
+				<div class="col-md-4 address-grids">
+					<h4>Contact no :</h4>
+					<p><span class="glyphicon glyphicon-earphone" aria-hidden="true"></span>+2 800 544 6035</p>
+					<p><span class="glyphicon glyphicon-print" aria-hidden="true"></span>+2 100 889 9466</p>
+				</div>
+				<div class="col-md-4 address-grids">
+					<h4>Email :</h4>
+					<p><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span><a href="mailto:example@mail.com">mail@example.com</a></p>
+				</div>
+				<div class="clearfix"> </div>
+			</div>		
+			<div class="contact-form">
+				<h4>Contact form</h4>
+				<form action="/contact" method="post">
+					<input type="text" name="name" value="Name" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Name';}" required="">
+					<input type="text" name="email" value="Email" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Email';}" required="">
+					<input type="text" name="phone" value="Telephone" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Telephone';}" required="">
+					<textarea type="text"  name="message" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Message...';}" required="">Message...</textarea>
+					<button class="btn1">Submit</button>
+				</form>
+			</div>	
 		</div>
 	</div>
-	<!--//products-->
+	<!--//contact-->
 	<!--footer-->
 	<div class="footer">
 		<div class="footer-grids">

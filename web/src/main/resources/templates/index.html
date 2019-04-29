@@ -92,7 +92,7 @@
                             </div>
                         </ul>
                     </li>
-
+                    <li><a th:href="@{/contact}" >CONTACT</a></li>
                 </ul>
                 <!--/.navbar-collapse-->
             </div>
@@ -102,14 +102,25 @@
             <div class="header-right search-box">
                 <a href="#"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></a>
                 <div class="search">
-                    <form class="navbar-form">
-                        <input type="text" class="form-control">
-                        <button type="submit" class="btn btn-default" aria-label="Left Align">
-                            Search
-                        </button>
-                    </form>
+
+
+                    <input type="text" class="form-control" id="searchName" placeholder="name">
+
+
+                    <input type = "submit" value="Search" class="item_add items" onclick="search()"   >
+
                 </div>
             </div>
+            <script>
+                function search() {
+                    var name = $('#searchName').val();
+
+
+                    var url = "http://localhost:8081/search?search=name:"
+                        + name ;
+                    window.location = url;
+                }
+            </script>
             <div class="header-right login">
                 <a href="/login"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></a>
 
@@ -178,45 +189,15 @@
 <!--//subscribe-->
 <!--footer-->
 <div class="footer">
-    <div class="container">
-        <div class="footer-grids">
+    <div class="footer-grids">
+        <div class="container">
             <div class="col-md-2 footer-grid">
-                <h4>company</h4>
-                <ul>
-                    <li><a href="products.html">products</a></li>
-                    <li><a href="#">Work Here</a></li>
-                    <li><a href="#">Team</a></li>
-                    <li><a href="#">Happenings</a></li>
-                    <li><a href="#">Dealer Locator</a></li>
-                </ul>
+                <img src="../images/3.png">
             </div>
-            <div class="col-md-2 footer-grid">
-                <h4>service</h4>
-                <ul>
-                    <li><a href="#">Support</a></li>
-                    <li><a href="#">FAQ</a></li>
-                    <li><a href="#">Warranty</a></li>
-                    <li><a href="contact.html">Contact Us</a></li>
-                </ul>
-            </div>
-            <div class="col-md-3 footer-grid">
-                <h4>order & returns</h4>
-                <ul>
-                    <li><a href="#">Order Status</a></li>
-                    <li><a href="#">Shipping Policy</a></li>
-                    <li><a href="#">Return Policy</a></li>
-                    <li><a href="#">Digital Gift Card</a></li>
-                </ul>
-            </div>
-            <div class="col-md-2 footer-grid">
-                <h4>legal</h4>
-                <ul>
-                    <li><a href="#">Privacy</a></li>
-                    <li><a href="#">Terms and Conditions</a></li>
-                    <li><a href="#">Social Responsibility</a></li>
-                </ul>
-            </div>
-            <div class="col-md-3 footer-grid icons">
+
+
+
+            <div class="col-md-3 footer-grid icons" style="float: right">
                 <h4>Connect with Us</h4>
                 <ul>
                     <li><a href="#"><img src="images/i1.png" alt=""/>Follow us on Facebook</a></li>
@@ -225,15 +206,16 @@
                     <li><a href="#"><img src="images/i4.png" alt=""/>Follow us on Pinterest</a></li>
                 </ul>
             </div>
+
         </div>
         <div class="clearfix"></div>
     </div>
 </div>
 </div>
-<!--//footer-->
+<!--footer-->
 <div class="footer-bottom">
     <div class="container">
-        <p> © 2015 Yummy . All rights reserved.</p>
+        <p> © 2019 Yummy .</p>
     </div>
 </div>
 </body>

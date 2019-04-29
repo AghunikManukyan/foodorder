@@ -203,7 +203,7 @@ b.caret {
 }
 
 .search input[type="text"] {
-    margin: 0px 0;
+    margin: 8px -11px;
     padding: 6px 10px 6px 15px;
     outline: none;
     color: #000;
@@ -211,7 +211,7 @@ b.caret {
     border: 1px solid #F07818;
     font-size: 1em;
     -webkit-appearance: none;
-    width: 70%;
+    width: 116%;
     border-radius: inherit;
 }
 
@@ -1001,7 +1001,7 @@ ul.rating li a:hover, .price_single a:hover, ul.size li a:hover {
 }
 
 .items {
-    margin: 12px 0 0px 100px;
+    margin:0px -138px 0px -120px;
 }
 
 .item_add:hover {

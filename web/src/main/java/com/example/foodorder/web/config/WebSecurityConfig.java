@@ -1,7 +1,6 @@
 package com.example.foodorder.web.config;
 
 
-
 import com.example.foodorder.web.security.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -36,9 +35,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
                 .and()
                 .authorizeRequests()
-                .antMatchers("/","/register").permitAll()
+                .antMatchers("/", "/register").permitAll()
                 .antMatchers("/admin/**").hasAnyAuthority("ADMIN")
-                .antMatchers("/user/**").hasAnyAuthority("USER","ADMIN");
+                .antMatchers("/user/**").hasAnyAuthority("USER", "ADMIN");
 
     }
 
