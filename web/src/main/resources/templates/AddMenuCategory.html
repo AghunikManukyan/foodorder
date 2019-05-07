@@ -4,11 +4,98 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        html, body, main, object {
+            width: 100%;
+            height: 100%;
+        }
+
+        object {
+            top: 135px;
+        }
+
+        main {
+            display: block;
+            overflow: hidden;
+        }
+        body {
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+
+        ul {
+            height: 84px;
+
+            display: table-cell;
+            vertical-align: bottom;
+        }
+
+        li {
+            color: #FFFFFF;
+            font-size: 14px;
+            font-family: Georgia, 'Georgia', Times, serif;
+            line-height: 60px;
+            text-transform: uppercase;
+
+            display: inline-block;
+            margin-right: 26px;
+            list-style-type: none;
+            cursor: pointer;
+        }
+
+        li:hover {
+            box-shadow: 0 2px 0 0 #F07818;
+        }
+        li a {
+            text-decoration: none;
+            color: #F07818;
+        }
+
+        .top_nav {
+            width: 100%;
+            height: 170px;
+
+            position: absolute;
+            top: -35px;
+            left: 0;
+
+            background-color: #cbc9ca;
+
+            white-space: nowrap;
+            overflow: hidden;
+        }
+
+        .navigation {
+            padding: 50px 60px 0 60px;
+
+        }
+
+
+    </style>
 </head>
 <body>
+<div class="top_nav">
+    <div class="navigation">
+        <ul>
+            <li><a th:href="@{/admin/orderPending}">Home</a></li>
+            <li><a href="/admin/addMenuCategoryProduct">Add (Menu | Category | Product)</a></li>
+            <li><a href="/admin/orderProcessing" >OrderProcessing</a></li>
+            <li><a href="/admin/orderCompletes" >OrderCompletes</a></li>
+            <li><a href="/admin/contact">ContactMessage</a></li>
+            <li><a href="/logout">Logout</a></li>
+        </ul>
+
+    </div>
+
+</div>
 
 
-<div style="float: left; width: 25%">
+<div style="float: left; width: 25%;margin-top: 200px;margin-left: 20px">
 
 
     <form action="/admin/addMenu" method="post">
@@ -19,7 +106,7 @@
 </div>
 
 
-<div style="float: left; width: 25%">
+<div style="float: left; width: 23%;margin-top: 200px">
     <form action="/admin/addCategory" method="post">
         <h1>Add category</h1><br>
         Menu:<br>
@@ -32,7 +119,7 @@
     <br><br>
 </div>
 
-<div style="float: left; width: 25%">
+<div style="float: left; width: 25%;margin-top: 200px">
     <form action="/admin/addSubcategory" method="post">
         <h1>Add Subcategory</h1><br>
         Category:<br>
@@ -45,7 +132,7 @@
         <input type="submit" value="AddSubcategory"><br><br>
     </form>
 </div>
-<div style="float: left; width: 25%">
+<div style="float: left; width: 25%;margin-top: 200px">
     <form action="/admin/addProduct" method="post" enctype="multipart/form-data">
         <h1>Add Product</h1><br>
         <input type="text" name="name" placeholder="name" required><br><br>

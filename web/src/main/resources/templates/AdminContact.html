@@ -46,13 +46,13 @@
             list-style-type: none;
             cursor: pointer;
         }
-        li a {
-            text-decoration: none;
-            color: #F07818;
-        }
 
         li:hover {
             box-shadow: 0 2px 0 0 #F07818;
+        }
+        li a {
+            text-decoration: none;
+            color: #F07818;
         }
 
         .top_nav {
@@ -90,13 +90,8 @@
 
     </style>
 
-
-
-
-
 </head>
 <body>
-
 
 <div class="top_nav">
     <div class="navigation">
@@ -119,25 +114,21 @@
 
             <h2>Order</h2>
 
-            <div th:each="user : ${users}">
+            <div th:each="contact : ${contacts}">
 
-                               <table border="1" id="t01" >
+                <table border="1" id="t01" >
                     <tr style="color:#F07818 ">
-                        <th>Image</th>
                         <th>Name</th>
-                        <th>Surname</th>
                         <th>Email</th>
-                        <th>Օrder</th>
+                        <th>Phone</th>
+                        <th>Message</th>
 
                     </tr>
                     <tr>
-                        <th >
-                            <img th:src="@{/user/getImage(picUrl=${user.picUrl})}"
-                                 width="102px" height="100px"  alt=""></th>
-                        <th th:text="${user.name}"></th>
-                        <th th:text="${user.surname}"></th>
-                        <th th:text="${user.email}"></th>
-                        <th ><a th:href="@{/admin/orderPendingLook(id=${user.id})}">Look</a></th>
+                        <th th:text="${contact.name}"></th>
+                        <th th:text="${contact.email}"></th>
+                        <th th:text="${contact.phone}"></th>
+                        <th th:text="${contact.message}"></th>
 
                     </tr>
                 </table><br>

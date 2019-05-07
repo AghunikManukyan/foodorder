@@ -220,23 +220,7 @@ public class UserController {
     }
 
 
-    @GetMapping("/user/addOrder")
-    public String addOrder(@AuthenticationPrincipal SpringUser springUser) {
-        List<Products> allByUserId = productsRepository.findAllByUserId(springUser.getUser().getId());
-        if (allByUserId == null) {
-            return "redirect:/user/checkout";
-        }
-        ProductOrder productOrder = new ProductOrder();
-        for (Products products : allByUserId) {
-            products.setStatus(true);
-        }
-        productOrder.setDate(new Date());
-        productOrder.setProducts(allByUserId);
-        productOrder.setUser(springUser.getUser());
-        productOrderRepository.save(productOrder);
-        return "redirect:/user/myOrder";
 
-    }
 
     @GetMapping("/user/getImage")
     public void getImageAsByteArray(HttpServletResponse response, @RequestParam("picUrl") String picUrl) throws IOException {
@@ -245,11 +229,7 @@ public class UserController {
         IOUtils.copy(in, response.getOutputStream());
     }
 
-    @GetMapping("/user/deleteOrder")
-    public String deleteOrder(@RequestParam("id") int id) {
-        productOrderRepository.deleteById(id);
-        return "redirect:/user/myOrder";
-    }
+
 
     @GetMapping("/user/updateAddress")
     public String updateAddress() {

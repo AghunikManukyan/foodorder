@@ -46,13 +46,13 @@
             list-style-type: none;
             cursor: pointer;
         }
-        li a {
-            text-decoration: none;
-            color: #F07818;
-        }
 
         li:hover {
             box-shadow: 0 2px 0 0 #F07818;
+        }
+        li a {
+            text-decoration: none;
+            color: #F07818;
         }
 
         .top_nav {
@@ -82,7 +82,7 @@
             padding: 15px;
             text-align: left;
         }
-        table#t01 {
+        table#t02 {
             width: 90%;
             background-color: #f1f1c1;
 
@@ -91,14 +91,9 @@
     </style>
 
 
-
-
-
 </head>
 <body>
-
-
-<div class="top_nav">
+<div class="top_nav" >
     <div class="navigation">
         <ul>
             <li><a th:href="@{/admin/orderPending}">Home</a></li>
@@ -112,43 +107,81 @@
     </div>
 
 </div>
-
-<div class="single" style="margin-left: 223px;margin-top: 200px">
+<div class="single" style="margin-top: 223px; margin-left: 100px">
     <div class="container">
         <div class="single-grids">
 
-            <h2>Order</h2>
+            <h2>User Address</h2>
 
-            <div th:each="user : ${users}">
 
-                               <table border="1" id="t01" >
-                    <tr style="color:#F07818 ">
-                        <th>Image</th>
-                        <th>Name</th>
-                        <th>Surname</th>
-                        <th>Email</th>
-                        <th>Օrder</th>
+            <table border="1" id="t02">
+                <tr style="color:#F07818 ">
+                    <th>City</th>
+                    <th>Region</th>
+                    <th>Street</th>
+                    <th>Apartment</th>
+                    <th>Suite</th>
+                    <th>Phone</th>
+                </tr>
+                <tr>
+                    <th th:text="${address.city}"></th>
+                    <th th:text="${address.region}"></th>
+                    <th th:text="${address.street}"></th>
+                    <th th:text="${address.apartment}"></th>
+                    <th th:text="${address.suite}"></th>
+                    <th th:text="${address.phone}"></th>
+                </tr>
+            </table>
 
-                    </tr>
-                    <tr>
-                        <th >
-                            <img th:src="@{/user/getImage(picUrl=${user.picUrl})}"
-                                 width="102px" height="100px"  alt=""></th>
-                        <th th:text="${user.name}"></th>
-                        <th th:text="${user.surname}"></th>
-                        <th th:text="${user.email}"></th>
-                        <th ><a th:href="@{/admin/orderPendingLook(id=${user.id})}">Look</a></th>
 
-                    </tr>
-                </table><br>
-
-            </div>
 
         </div>
         <div class="clearfix"></div>
     </div>
 </div>
+<div class="single" style=" margin-left: 100px">
+    <div class="container">
+        <div class="single-grids">
+
+            <h2>User Order</h2>
+
+            <div th:each="order : ${orders}">
+
+
+
+
+                <table border="1" id="t02" >
+                    <tr style="color:#F07818 ">
+                        <th>Image</th>
+                        <th>Name</th>
+                        <th>Count</th>
+                        <th>One price</th>
+                        <th>All price</th>
+                        <th>Status</th>
+                    </tr>
+                    <tr th:each="products : ${order.products}">
+
+                        <th ><a th:href="@{/user/productById(id=${products.product.id})}">
+                            <img th:src="@{/product/getImage(picUrl=${products.product.picUrl})}"
+                                 width="102px" height="100px"  alt=""></a></th>
+                        <th th:text="${products.product.name}"></th>
+                        <th th:text="${products.count}"></th>
+                        <th th:text="${products.product.price}"></th>
+                        <th th:text="${products.price}"></th>
+                        <th th:text="${order.status}"></th>
+
+                    </tr>
+                </table><br>
+                <a th:href="@{/user/deleteOrder(id=${order.id})}"><img src="../images/delete.png"></a>
+            </div>
+
+        </div>
+
+        <div class="clearfix"></div>
+    </div>
 </div>
+</div>
+>
 
 </body>
 </html>

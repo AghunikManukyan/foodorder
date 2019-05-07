@@ -116,7 +116,7 @@ public class MainController {
     public String loginSuccess(@AuthenticationPrincipal SpringUser springUser, ModelMap modelMap) {
 
         if (springUser.getUser().getUserType() == UserType.ADMIN) {
-            return "AdminHome";
+            return "redirect:/admin/orderPending";
         }
         return "redirect:/user/home";
 
@@ -136,11 +136,10 @@ public class MainController {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setPicUrl(fileName);
         userRepository.save(user);
-        emailService.sendHtmlMessage(user.getEmail(),
-                "Welcome" + user.getName(),
-                user.getName(), UUID.randomUUID().toString());
-
         userik = user;
+        emailService.sendSimpleMessage(user.getEmail(),
+                "Բարի Գալուստ " + user.getName(),
+                "Դուք Հաջողությամբ գրանցվել եք!");
         return "redirect:/user/address";
 
 
