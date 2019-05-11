@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.mail.MessagingException;
 import java.io.File;
@@ -124,7 +125,7 @@ public class MainController {
     }
 
     @PostMapping("/register")
-    public String register(@ModelAttribute User user, @RequestParam("file") MultipartFile file) throws IOException, MessagingException {
+    public String register( @ModelAttribute User user, @RequestParam("file") MultipartFile file) throws IOException, MessagingException {
 
         if (userRepository.findByEmail(user.getEmail()) != null) {
             return "redirect:/register";
@@ -136,21 +137,24 @@ public class MainController {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setPicUrl(fileName);
         userRepository.save(user);
-        userik = user;
+
         emailService.sendSimpleMessage(user.getEmail(),
                 "Բարի Գալուստ " + user.getName(),
                 "Դուք Հաջողությամբ գրանցվել եք!");
-        return "redirect:/user/address";
+
+
+   userik =user;
+        return "redirect:/address";
 
 
     }
 
-    @GetMapping("/user/address")
+    @GetMapping("/address")
     public String addAddress() {
         return "address";
     }
 
-    @PostMapping("/user/addAddress")
+    @PostMapping("/addAddress")
     public String addAddress(@ModelAttribute Address address) {
         address.setUser(userik);
         addressRepository.save(address);
